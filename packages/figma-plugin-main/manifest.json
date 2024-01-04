@@ -1,0 +1,14 @@
+{
+  "name": "Figma Plugin Main",
+  "id": "figma-plugin-main",
+  "api": "1.0.0",
+  "editorType": ["figma", "dev"],
+  "capabilities": ["inspect", "codegen"],
+  "codegenLanguages": [
+    { "label": "Tailwind", "value": "tailwind" },
+    { "label": "CSS", "value": "css" },
+    { "label": "HTML", "value": "html" }
+  ],
+  "main": "./dist/code.js",
+  "ui": "./public/index.html"
+}
