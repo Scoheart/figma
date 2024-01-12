@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "D2C",
+  "description": "Baidu Netdisk D2C Data Transfer Schema",
+  "type": "object",
+  "properties": {
+    "structure": {
+      "type": "object",
+      "properties": {
+        "nodeType": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array"
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "properties": {
+        "universal": {
+          "type": "object"
+        },
+        "web": {
+          "type": "object"
+        },
+        "android": {
+          "type": "object"
+        },
+        "ios": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "required": ["structure", "style"]
+}

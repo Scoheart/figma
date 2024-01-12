@@ -1,0 +1,10 @@
+{
+  "$schema": "./d2c.json",
+  "structure": {
+    "nodeType": "FRAME",
+    "children": []
+  },
+  "style": {
+    "universal": {}
+  }
+}

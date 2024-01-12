@@ -1,6 +1,6 @@
-import codegenMode from './mode/codegenMode';
-import defaultMode from './mode/defaultMode';
-import inspectMode from './mode/inspectMode';
+import codegenMode from './editorType/dev/codegenMode';
+import defaultMode from './editorType/figma/defaultMode';
+import inspectMode from './editorType/dev/inspectMode';
 
 /**
  * Fimga 插件模式
