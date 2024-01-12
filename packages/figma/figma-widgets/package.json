@@ -1,0 +1,16 @@
+{
+  "name": "figma-widgets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.81.0",
+    "@figma/widget-typings": "^1.9.1",
+    "typescript": "^5.2.2"
+  }
+}

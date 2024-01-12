@@ -1,0 +1,10 @@
+{
+  "name": "MyWidget",
+  "id": "737805260747778093",
+  "api": "1.0.0",
+  "widgetApi": "1.0.0",
+  "editorType": ["figma", "figjam"],
+  "containsWidget": true,
+  "main": "./dist/code.js",
+  "ui": "./dist/ui.html"
+}

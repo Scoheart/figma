@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "lib": ["ESNext"],
+    "typeRoots": ["./node_modules/@figma"]
+  },
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./dist"]
+}

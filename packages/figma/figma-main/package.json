@@ -1,0 +1,24 @@
+{
+  "name": "figma-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c ./scripts/rollup/rollup.config.js --ENV=prod",
+    "dev": "rollup -c ./scripts/rollup/rollup.config.js --watch --ENV=dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.81.0",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "rollup": "^4.4.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@rollup/plugin-replace": "^5.0.5"
+  }
+}

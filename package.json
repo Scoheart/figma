@@ -1,15 +1,14 @@
 {
-  "name": "figma-monorepo",
+  "name": "d2c-monorepo",
   "private": true,
   "scripts": {
+    "commit": "git add -A; git commit -m 'chore: update'",
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
     "prettier": "^3.1.0",
     "turbo": "latest"
   },
