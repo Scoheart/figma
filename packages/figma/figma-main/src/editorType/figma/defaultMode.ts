@@ -15,6 +15,8 @@ const defaultMode = () => {
   });
 };
 /**
+ * 枚举化属性
+ *
  * @function enumerableProperty
  * @description Figma节点的属性都是「不可枚举的」，该方法将属性枚举出来，方便获取到所有属性。
  * @param obj
@@ -45,20 +47,54 @@ const styleList4Universal = [
   'fills',
 ];
 
+type StructureType = {
+  id: string;
+  name: string;
+  type: string;
+  children: any[];
+  characters: string;
+};
+
+type StyleType = {
+  universal: any;
+  web: any;
+  android: any;
+  ios: any;
+};
+
+type ResourcesType = {
+  image: any;
+  svg: any;
+  video: any;
+  font: any;
+};
+
+type SchemaType = {
+  structure: StructureType;
+  style: StyleType;
+  resources: ResourcesType;
+}
+
 function filterProperty(node: any) {
-  const { structure, style } = {
+  const { structure, style, resources } = {
     structure: {
       id: '',
       name: '',
       type: '',
       children: node.children.map(filterProperty),
-      content: '',
+      characters: '',
     },
     style: {
       universal: {},
       web: {},
       android: {},
       ios: {},
+    },
+    resources: {
+      image: null,
+      svg: null,
+      video: null,
+      font: null,
     },
   };
 
@@ -77,6 +113,8 @@ function filterProperty(node: any) {
       ? enumerableNode[property]
       : null;
   }
+
+  // filter resources
 
   return {
     structure,

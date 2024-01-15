@@ -1,2 +1,4 @@
 packages:
   - 'packages/figma/*'
+  - 'packages/server/*'
+  - 'packages/ide/*'
