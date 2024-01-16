@@ -1,6 +1,6 @@
 {
   "name": "2024-figma-plugin",
-  "id": "2024-figma-plugin",
+  "id": "1328910005599492353",
   "api": "1.0.0",
   "editorType": ["figma", "dev"],
   "capabilities": ["inspect", "codegen"],
