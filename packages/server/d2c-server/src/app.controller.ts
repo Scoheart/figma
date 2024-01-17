@@ -32,7 +32,7 @@ function toCode(node) {
   const { universal } = style;
   const { isAsset, image } = resources;
 
-  const className = name.replace(/ /g, '-');
+  const className = name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
 
   let html = '';
   if (isAsset) {
@@ -52,7 +52,7 @@ function toCode(node) {
       </div>`;
       break;
     case 'TEXT':
-      html += `<div class=${className}></div>`;
+      html += `<div class=${className}>${characters}</div>`;
       break;
     default:
       break;
@@ -63,15 +63,12 @@ function toCode(node) {
 
 function toCSS(node) {
   const { structure, style, children } = node;
-  const { name } = structure;
+  const { id, name } = structure;
   const { universal } = style;
 
-  const className = name.replace(/ /g, '-');
+  const className = name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
 
-  let css = '';
-  css += `.${className} {`;
-  css += `width: 100px`;
-  css += '}';
+  let css = `.${className}${transformStyle(universal)}\n`;
 
   css += children
     .map((node) => {
@@ -88,4 +85,51 @@ function handleResouces(uint8arr, name) {
   const data = new Uint8Array(Object.values(uint8arr));
   fs.writeFileSync(imagePath, data);
   return imagePath;
+}
+
+function transformStyle(universal) {
+  const { width, height, layoutMode } = universal;
+  const cssObj = {
+    width: width + 'px',
+    height: height + 'px',
+    display: getDisplay(layoutMode),
+    'flex-direction': getFlexDirection(layoutMode),
+  };
+  const json = JSON.stringify(cssObj, null, 2);
+  const json2 = json.split('"').join('');
+  return json2.split(',').join(';');
+}
+
+function getDisplay(layoutMode) {
+  switch (layoutMode) {
+    case 'HORIZONTAL':
+    case 'VERTICAL':
+      return 'flex';
+    case 'NONE':
+      return undefined;
+  }
+}
+
+function getFlexDirection(layoutMode) {
+  switch (layoutMode) {
+    case 'HORIZONTAL':
+      return 'row';
+    case 'VERTICAL':
+      return 'column';
+    case 'NONE':
+      return undefined;
+  }
+}
+
+function getAlignItems(counterAxisAlignItems) {
+  switch (counterAxisAlignItems) {
+    case 'MIN':
+      return 'flex-start';
+    case 'CENTER':
+      return 'center';
+    case 'MAX':
+      return 'flex-end';
+    case 'BASELINE':
+      return 'baseline';
+  }
 }

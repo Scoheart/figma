@@ -1,7 +1,7 @@
 const defaultMode = () => {
   figma.showUI(__html__, {
-    width: 370,
-    height: 600,
+    width: 360,
+    height: 500,
   });
   figma.on('selectionchange', async () => {
     const selection = figma.currentPage.selection;

@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
-
+import yidSvg from '../public/yid.svg';
+import Home from './page/Home';
 const App: FC = () => {
   const [node, setNode] = useState<any>(null);
 
@@ -21,11 +22,7 @@ const App: FC = () => {
     });
   };
 
-  return (
-    <>
-      <Button onClick={pushServer}>开始转码</Button>
-    </>
-  );
+  return <Home />;
 };
 
 export default App;
