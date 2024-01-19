@@ -1,10 +1,11 @@
 const defaultMode = () => {
   figma.showUI(__html__, {
-    width: 360,
-    height: 500,
+    width: 375,
+    height: 480,
   });
   figma.on('selectionchange', async () => {
     const selection = figma.currentPage.selection;
+
     console.log('selected', selection[0]);
     postSelection();
   });
@@ -70,6 +71,9 @@ async function schematizeNode(node) {
     'primaryAxisAlignItems',
     'counterAxisAlignItems',
     'fills',
+    'fontSize',
+    'fontName',
+    'fontWeight',
   ];
 
   for (const key of style4Universal) {
@@ -82,7 +86,7 @@ async function schematizeNode(node) {
       format: 'PNG',
       constraint: {
         type: 'SCALE',
-        value: 1,
+        value: 2,
       },
     });
   }
@@ -99,5 +103,14 @@ async function schematizeNode(node) {
     children,
   };
 }
+
+// function uint8ToBase64(uint8Array) {
+//   let asciiString = '';
+//   uint8Array.forEach((byte) => {
+//     asciiString += String.fromCharCode(byte);
+//   });
+
+//   return window.btoa(asciiString);
+// }
 
 export default defaultMode;

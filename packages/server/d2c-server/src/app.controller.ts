@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as fs from 'fs';
 import * as path from 'path';
+
 const cwd = process.cwd();
 const projectPath = path.join(cwd, '../project/');
 
@@ -32,7 +33,8 @@ function toCode(node) {
   const { universal } = style;
   const { isAsset, image } = resources;
 
-  const className = name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
+  const className =
+    'd2c-' + name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
 
   let html = '';
   if (isAsset) {
@@ -66,7 +68,8 @@ function toCSS(node) {
   const { id, name } = structure;
   const { universal } = style;
 
-  const className = name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
+  const className =
+    'd2c-' + name.replace(/[."()\s]/g, '') + id.replace(/[;:]/g, '-');
 
   let css = `.${className}${transformStyle(universal)}\n`;
 
@@ -80,24 +83,46 @@ function toCSS(node) {
 }
 
 const staticPath = path.join(projectPath, 'static/');
-function handleResouces(uint8arr, name) {
+function handleResouces(base64, name) {
   const imagePath = path.join(staticPath, name + '.png');
-  const data = new Uint8Array(Object.values(uint8arr));
+  const data = Buffer.from(base64, 'base64');
+  // const data = new Uint8Array(Object.values(base64));
   fs.writeFileSync(imagePath, data);
   return imagePath;
 }
 
 function transformStyle(universal) {
-  const { width, height, layoutMode } = universal;
+  const {
+    width,
+    height,
+    paddingTop,
+    paddingRight,
+    paddingBottom,
+    paddingLeft,
+    layoutMode,
+    itemSpacing,
+    primaryAxisAlignItems,
+    counterAxisAlignItems,
+    fills,
+    fontName,
+    fontSize,
+    fontWeight,
+  } = universal;
   const cssObj = {
     width: width + 'px',
     height: height + 'px',
     display: getDisplay(layoutMode),
     'flex-direction': getFlexDirection(layoutMode),
+    'justify-content': getJustifyContent(primaryAxisAlignItems),
+    'align-items': getAlignItems(counterAxisAlignItems),
+    gap: getGap(itemSpacing),
+    padding: getPadding(paddingTop, paddingRight, paddingBottom, paddingLeft),
+    'background-color': getBackgroundColor(fills),
+    font: getFontFamily(fontName, fontWeight, fontSize),
   };
   const json = JSON.stringify(cssObj, null, 2);
   const json2 = json.split('"').join('');
-  return json2.split(',').join(';');
+  return json2.split(',').join(';').split('舒').join(',');
 }
 
 function getDisplay(layoutMode) {
@@ -121,6 +146,19 @@ function getFlexDirection(layoutMode) {
   }
 }
 
+function getJustifyContent(primaryAxisAlignItems) {
+  switch (primaryAxisAlignItems) {
+    case 'MIN':
+      return 'start';
+    case 'MAX':
+      return 'end';
+    case 'CENTER':
+      return 'center';
+    case 'SPACE_BETWEEN':
+      return 'space-between';
+  }
+}
+
 function getAlignItems(counterAxisAlignItems) {
   switch (counterAxisAlignItems) {
     case 'MIN':
@@ -132,4 +170,38 @@ function getAlignItems(counterAxisAlignItems) {
     case 'BASELINE':
       return 'baseline';
   }
+}
+
+function getGap(itemSpacing) {
+  if (!itemSpacing) return undefined;
+  return itemSpacing + 'px';
+}
+
+function getPadding(paddingTop, paddingRight, paddingBottom, paddingLeft) {
+  if (paddingTop === undefined) return undefined;
+  // return `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
+}
+
+function getBackgroundColor(fills) {
+  if (!fills) return undefined;
+  if (fills.length === 0) return undefined;
+  const { color, opacity, type } = fills[0];
+  if (type !== 'SOLID') return undefined;
+  const r = sliceNum(color.r * 255);
+  const g = sliceNum(color.g * 255);
+  const b = sliceNum(color.b * 255);
+  const a = sliceNum(opacity);
+
+  return `rgba(${r}舒 ${g}舒 ${b}舒 ${a})`;
+}
+
+function sliceNum(num) {
+  return num.toFixed(2).replace(/\.00$/, '');
+}
+
+function getFontFamily(fontName, fontWeight, fontSize) {
+  if (!fontName) return undefined;
+  console.log(fontName)
+  const { family } = fontName;
+  return `\"${family}\" ${fontWeight} ${fontSize}`;
 }
